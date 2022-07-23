@@ -1,7 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-int output = BinaryTreeCalculator.BinaryTreeCalculator.EvaluateExpression("(1 + 1) x 2");
+Console.Write("Please enter formula: ");
+string? input = Console.ReadLine();
+if (input != null)
+{
+    int output = BinaryTreeCalculator.BinaryTreeCalculator.EvaluateExpression(input);
+    Console.WriteLine($"Result: {output}");
+}
 
-
-Console.WriteLine($"Result: {output}");
 

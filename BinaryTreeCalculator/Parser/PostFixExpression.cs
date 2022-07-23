@@ -15,28 +15,60 @@ namespace BinaryTreeCalculator.Parser
             _postfixTokens = new List<Token>();
         }
 
-        public IEnumerable<Token> Apply(IEnumerable<Token> infixNotationTokens)
+        /// <summary>
+        /// Transform list of tokens into postfix order 
+        /// </summary>
+        /// <param name="tokens"></param>
+        /// <returns>List of tokens in postfix format</returns>
+        public IEnumerable<Token> Apply(IEnumerable<Token> tokens)
         {
-            foreach (var token in infixNotationTokens)
+            bool isPreviousUnary = false;
+            foreach (var token in tokens)
             {
-                ProcessToken(token);
+                ProcessToken(token, isPreviousUnary);
+
+                if (isPreviousUnary)
+                    isPreviousUnary = false;
+
+                if (token.OperatorType == OperatorEnumClass.OperatorEnum.UnaryMinus)
+                    isPreviousUnary = true;
+                
             }
             return GetResult();
         }
 
-        private void ProcessToken(Token token)
+        /// <summary>
+        /// Handles token processing depending on operand or operator
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="isPreviousUnary"></param>
+        private void ProcessToken(Token token, bool isPreviousUnary)
         {
             if (token.OperatorType == BinaryTree.OperatorEnumClass.OperatorEnum.Number)
-                StoreOperand(token);
+                StoreOperand(token, isPreviousUnary);
             else
                 ProcessOperator(token);
         }
 
-        private void StoreOperand(Token operandToken)
+        /// <summary>
+        /// Stores operand onto stack. Special handling for unary minus
+        /// </summary>
+        /// <param name="operandToken"></param>
+        /// <param name="isPreviousUnary"></param>
+        private void StoreOperand(Token operandToken, bool isPreviousUnary)
         {
             _postfixTokens.Add(operandToken);
+
+            if (isPreviousUnary && _operatorTokenStack.Peek().OperatorType == OperatorEnumClass.OperatorEnum.UnaryMinus)
+            {
+                _postfixTokens.Add(_operatorTokenStack.Pop());
+            }
         }
 
+        /// <summary>
+        /// Stores operator onto operator stack
+        /// </summary>
+        /// <param name="operatorToken"></param>
         private void ProcessOperator(Token operatorToken)
         {
             switch (operatorToken.OperatorType)
@@ -53,11 +85,20 @@ namespace BinaryTreeCalculator.Parser
             }
         }
 
+        /// <summary>
+        /// Pushes '(' to operator stack
+        /// </summary>
+        /// <param name="operatorToken"></param>
         private void PushOpeningBracket(Token operatorToken)
         {
             _operatorTokenStack.Push(operatorToken);
         }
 
+        /// <summary>
+        /// Pushes operators on stack to operand stack until '(' is found
+        /// </summary>
+        /// <param name="operatorToken"></param>
+        /// <exception cref="Exception"></exception>
         private void PushClosingBracket(Token operatorToken)
         {
             bool openingBracketFound = false;
@@ -80,6 +121,10 @@ namespace BinaryTreeCalculator.Parser
             }
         }
 
+        /// <summary>
+        /// Push operator onto operator stack depending on priority of operator
+        /// </summary>
+        /// <param name="operatorToken"></param>
         private void PushOperator(Token operatorToken)
         {
             var operatorPriority = GetOperatorPriority(operatorToken);
@@ -104,6 +149,12 @@ namespace BinaryTreeCalculator.Parser
             _operatorTokenStack.Push(operatorToken);
         }
 
+        /// <summary>
+        /// Determines the priority of operator
+        /// </summary>
+        /// <param name="operatorToken"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         private int GetOperatorPriority(Token operatorToken)
         {
             switch (operatorToken.OperatorType)
@@ -114,6 +165,8 @@ namespace BinaryTreeCalculator.Parser
                 case OperatorEnumClass.OperatorEnum.Multiply:
                 case OperatorEnumClass.OperatorEnum.Divide:
                     return 2;
+                case OperatorEnumClass.OperatorEnum.UnaryMinus:
+                    return 3;
                 default:
                     var exMessage = "An unexpected action for the operator: " +
                         $"{operatorToken.OperatorType}.";
@@ -121,6 +174,11 @@ namespace BinaryTreeCalculator.Parser
             }
         }
 
+        /// <summary>
+        /// Generates list of tokens in postfix order
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         private List<Token> GetResult()
         {
             while (_operatorTokenStack.Count > 0)

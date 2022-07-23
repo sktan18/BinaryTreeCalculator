@@ -4,6 +4,9 @@ using System.Text;
 
 namespace BinaryTreeCalculator.BinaryTree
 {
+    /// <summary>
+    /// Various possible enumeration
+    /// </summary>
     public class OperatorEnumClass
     {
         public enum OperatorEnum
@@ -14,7 +17,8 @@ namespace BinaryTreeCalculator.BinaryTree
             Divide,
             Multiply,
             OpenParenthesis,
-            CloseParenthesis
+            CloseParenthesis,
+            UnaryMinus
         }
     }
 }

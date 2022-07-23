@@ -7,6 +7,11 @@ namespace BinaryTreeCalculator.Parser
 {
     public class NodeParser
     {
+        /// <summary>
+        /// Parse string expression into a binary tree
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns>Root of the binary tree</returns>
         public Node Parse(string expression)
         {
             PostFixExpression postFixExpression = new PostFixExpression();
@@ -20,6 +25,11 @@ namespace BinaryTreeCalculator.Parser
             return bTree;
         }
 
+        /// <summary>
+        /// Build tree to be displayed or for calculation
+        /// </summary>
+        /// <param name="tokens"></param>
+        /// <returns></returns>
         private Node BuildTree(IEnumerable<Token> tokens)
         {
             Node node;
@@ -39,26 +49,30 @@ namespace BinaryTreeCalculator.Parser
                     case OperatorEnumClass.OperatorEnum.Multiply:
                     case OperatorEnumClass.OperatorEnum.Divide:
                         node = new Node(token.OperatorType);
-                        node.RightNode = stack.Pop();
-                        node.LeftNode = stack.Pop();
+                        if (stack.Count > 0)
+                            node.RightNode = stack.Pop();
+                        if (stack.Count > 0)
+                            node.LeftNode = stack.Pop();
                         
                         stack.Push(node);
                         break;
-
+                    case OperatorEnumClass.OperatorEnum.UnaryMinus:
+                        node = new Node(token.OperatorType);
+                        if (stack.Count > 0)
+                            node.RightNode = stack.Pop();
+                        stack.Push(node);
+                        break;
                 }
             }
             return stack.Pop();
         }
 
-        private Node CreateNode(OperatorEnumClass.OperatorEnum operand, Stack<Node> stack)
-        {
-            Node node = new Node(operand);
-
-            node.LeftNode = stack.Pop();
-            //node.RightNode = stack.Pop();
-            return node;
-        }
-
+        /// <summary>
+        /// Extracts consecutive digits into a number
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="position"></param>
+        /// <returns></returns>
         private int extractNumber(string s, int position)
         {
             string numberString = String.Empty;
@@ -74,14 +88,20 @@ namespace BinaryTreeCalculator.Parser
             return Int32.Parse(numberString);
         }
 
+        /// <summary>
+        /// Parse string expression to tokens
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
         private List<Token> ParseExpressionToTokens(string expression)
         {
             List<Token> tokens = new List<Token>();
             Token token = new Token(0);
-            expression = expression.Replace(" ", String.Empty);
+            bool ignore = false;
 
             for (int i = 0; i < expression.Length; i++)
             {
+                ignore = false;
                 switch (expression[i])
                 {
                     case '0':
@@ -96,6 +116,7 @@ namespace BinaryTreeCalculator.Parser
                     case '9':
                         int num = extractNumber(expression, i);
                         token = new Token(num);
+                        i += num.ToString().Length -1;
                         break;
                     case '(':
                         token = new Token(OperatorEnumClass.OperatorEnum.OpenParenthesis);
@@ -107,7 +128,10 @@ namespace BinaryTreeCalculator.Parser
                         token = new Token(OperatorEnumClass.OperatorEnum.Plus);
                         break;
                     case '-':
-                        token = new Token(OperatorEnumClass.OperatorEnum.Minus);
+                        if (Char.IsDigit(expression[i+1]))
+                            token = new Token(OperatorEnumClass.OperatorEnum.UnaryMinus);
+                        else
+                            token = new Token(OperatorEnumClass.OperatorEnum.Minus);
                         break;
                     case '*':
                     case 'x':
@@ -117,9 +141,11 @@ namespace BinaryTreeCalculator.Parser
                         token = new Token(OperatorEnumClass.OperatorEnum.Divide);
                         break;
                     default:
+                        ignore = true;
                         break;
                 }
-                tokens.Add(token);
+                if (!ignore)
+                    tokens.Add(token);
             }
             return tokens;
         }

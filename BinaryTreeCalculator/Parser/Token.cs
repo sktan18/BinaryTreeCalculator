@@ -20,5 +20,14 @@ namespace BinaryTreeCalculator.Parser
         {
             OperatorType = type;
         }
+
+        /// <summary>
+        /// Returns if current node is a operand
+        /// </summary>
+        /// <returns></returns>
+        public bool IsOperand()
+        {
+            return OperatorType == OperatorEnumClass.OperatorEnum.Number;
+        }
     }
 }

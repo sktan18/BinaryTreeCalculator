@@ -17,7 +17,12 @@ namespace BinaryTreeCalculator
             return CalculateResult(root);
         }
 
-        private static int CalculateResult(Node root)
+        /// <summary>
+        /// Calculates results based on binary tree
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        private static int CalculateResult(Node? root)
         {
             if (root == null)
                 return 0;
@@ -38,6 +43,9 @@ namespace BinaryTreeCalculator
                 case OperatorEnumClass.OperatorEnum.Multiply:
                     result = CalculateResult(root.LeftNode) * CalculateResult(root.RightNode);
                     break;
+                case OperatorEnumClass.OperatorEnum.UnaryMinus:
+                    result = root.RightNode.Value * -1;
+                    break;
                 case OperatorEnumClass.OperatorEnum.Number:
                     result = root.Value;
                     break;
@@ -45,6 +53,10 @@ namespace BinaryTreeCalculator
             return result;
         }
 
+        /// <summary>
+        /// Tries to print readable binary tree
+        /// </summary>
+        /// <param name="root"></param>
         private static void PrintBTree(Node root)
         {
             LinkedList<Node> treeLevel = new LinkedList<Node>();
@@ -90,11 +102,16 @@ namespace BinaryTreeCalculator
 
         }
 
+        /// <summary>
+        /// Output to console
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="removed"></param>
         private static void printSpace(int n, Node removed)
         {
             for (;n>0; n--)
             {
-                Console.Write("\t");
+                Console.Write(" ");
             }
             
             if (removed == null)
@@ -103,7 +120,12 @@ namespace BinaryTreeCalculator
                 Console.Write(removed.ToString());
         }
 
-        private static int TreeHeight(Node node)
+        /// <summary>
+        /// Calculates height of tree based on sub-tree
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        private static int TreeHeight(Node? node)
         {
             if (node == null)
                 return 0;
