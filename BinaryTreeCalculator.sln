@@ -7,6 +7,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BinaryTreeCalculator", "Bin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryTreeUnitTests", "BinaryTreeUnitTests\BinaryTreeUnitTests.csproj", "{D1655C6C-3D7C-412B-A72B-5820739D7C00}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryTreeConsole", "BinaryTreeConsole\BinaryTreeConsole.csproj", "{235DD3BF-884C-435D-A186-5C7219A2F2B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{D1655C6C-3D7C-412B-A72B-5820739D7C00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1655C6C-3D7C-412B-A72B-5820739D7C00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1655C6C-3D7C-412B-A72B-5820739D7C00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{235DD3BF-884C-435D-A186-5C7219A2F2B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{235DD3BF-884C-435D-A186-5C7219A2F2B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{235DD3BF-884C-435D-A186-5C7219A2F2B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{235DD3BF-884C-435D-A186-5C7219A2F2B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -25,6 +31,7 @@ Global
 		SolutionGuid = {235555B4-B36E-4359-8ED4-9AC2516BD322}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		BinaryTreeCalculator\BinaryTreeCalculator.projitems*{235dd3bf-884c-435d-a186-5c7219a2f2b3}*SharedItemsImports = 5
 		BinaryTreeCalculator\BinaryTreeCalculator.projitems*{2a4be063-87f4-4577-b30f-f1bddde5660e}*SharedItemsImports = 13
 		BinaryTreeCalculator\BinaryTreeCalculator.projitems*{d1655c6c-3d7c-412b-a72b-5820739d7c00}*SharedItemsImports = 5
 	EndGlobalSection

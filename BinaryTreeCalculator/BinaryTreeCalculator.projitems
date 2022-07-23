@@ -10,5 +10,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)BinaryTreeCalculator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BinaryTree\OperatorEnum.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BinaryTree\Node.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parser\NodeParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parser\PostFixExpression.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parser\Token.cs" />
   </ItemGroup>
 </Project>
