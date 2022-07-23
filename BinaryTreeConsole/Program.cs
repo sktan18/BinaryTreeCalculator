@@ -1,8 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-BinaryTreeCalculator.BinaryTreeCalculator.EvaluateExpression("(1 + 1) * 2");
+int output = BinaryTreeCalculator.BinaryTreeCalculator.EvaluateExpression("(1 + 1) x 2");
 
 
+Console.WriteLine($"Result: {output}");
 
-
-Console.WriteLine("Hello, World!");

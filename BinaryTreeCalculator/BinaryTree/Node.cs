@@ -20,5 +20,30 @@ namespace BinaryTreeCalculator.BinaryTree
         {
             Operand = operand;
         }
+
+        public override string ToString()
+        {
+            string printString = string.Empty;
+
+            switch (Operand)
+            {
+                case OperatorEnumClass.OperatorEnum.Number:
+                    printString = Value.ToString();
+                    break;
+                case OperatorEnumClass.OperatorEnum.Plus:
+                    printString = "+";
+                    break;
+                case OperatorEnumClass.OperatorEnum.Minus:
+                    printString = "-";
+                    break;
+                case OperatorEnumClass.OperatorEnum.Divide:
+                    printString = "/";
+                    break;
+                case OperatorEnumClass.OperatorEnum.Multiply:
+                    printString = "*";
+                    break;
+            }
+            return printString;
+        }
     }
 }
